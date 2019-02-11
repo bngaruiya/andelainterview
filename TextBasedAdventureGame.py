@@ -180,8 +180,8 @@ zonemap = {
     },
 
     'c1': {
-        'ZONENAME': 'c1',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Water Shed',
+        'DESCRIPTION': 'Gotta refresh a lil bit. This seems like too much back and forth',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'b1',
@@ -190,8 +190,8 @@ zonemap = {
         RIGHT: 'c2'
     },
     'c2': {
-        'ZONENAME': 'c2',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Prisoners Den',
+        'DESCRIPTION': 'All this people caught doing what i am doing, I need to rethink my priorities!!!',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'b2',
@@ -200,8 +200,8 @@ zonemap = {
         RIGHT: 'c3'
     },
     'c3': {
-        'ZONENAME': 'c3',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'King Arthurs Tomb',
+        'DESCRIPTION': 'This is the greatest King of all times. This place is amazing...',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'b3',
@@ -210,8 +210,8 @@ zonemap = {
         RIGHT: 'c4'
     },
     'c4': {
-        'ZONENAME': 'c4',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Underground Tunnels',
+        'DESCRIPTION': 'These tunnels must lead to the trasure galore. So far so good...',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'b4',
@@ -274,7 +274,7 @@ def print_location():
 
 def prompt():
     print('\n' + '=========================')
-    print('what would you like to do?')
+    print('what now?')
     action = input("> ")
     acceptable_actions = ['move', 'go', 'travel',
                           'walk', 'quit', 'examine',
@@ -291,7 +291,7 @@ def prompt():
 
 
 def player_move(action):
-    ask = 'Where do you want to go exactly?\n'
+    ask = 'Where do you want to go?\n'
     dest = input(ask)
     if dest in ['up', 'north']:
         destination = zonemap[myPlayer.location][UP]
@@ -308,14 +308,14 @@ def player_move(action):
 
 
 def mouvement_handler(destination):
-    print('\n' + 'You have arrived to your destination.')
+    print('\n' + 'You have arrived to your destination .')
     myPlayer.location = destination
     print_location()
 
 
 def player_examine(action):
     if zonemap[myPlayer.location]['SOLVED']:
-        print('You have already been to this zone.')
+        print('You have already solved this puzzle.')
     else:
         print('You can trigger a puzzle here.')
 
@@ -340,7 +340,7 @@ def setup_game():
     myPlayer.name = player_name
 
     question2 = 'What is your title/job?\n'
-    question2added = 'You can be a cook, a barman or barmaid, or a singer.\n'
+    question2added = 'You can be a warrior, a knight, a witch, or a thief.\n'
     for character in question2:
         sys.stdout.write(character)
         sys.stdout.flush()
@@ -350,24 +350,24 @@ def setup_game():
         sys.stdout.flush()
         time.sleep(0.02)
     player_job = input("> ")
-    valid_jobs = ['cook', 'barman', 'barmaid', 'singer']
+    valid_jobs = ['warrior', 'knight', 'witch', 'thief']
     while player_job.lower() not in valid_jobs:
         player_job = input("> ")
     if player_job.lower() in valid_jobs:
         myPlayer.job = player_job
-        print('Good. We need a decent ' + player_job + ' in our pub.\n')
+        print('Bravo. A strong ' + player_job + ' is what our clan needs.\n')
 
     ### Player Stats ###
-    if myPlayer.job is 'cook':
+    if myPlayer.job is 'warrior':
         self.incentive = 100
         self.motivation = 40
-    if myPlayer.job is 'barman':
+    if myPlayer.job is 'knight':
         self.incentive = 70
         self.motivation = 70
-    if myPlayer.job is 'barmaid':
+    if myPlayer.job is 'witch':
         self.incentive = 60
         self.motivation = 80
-    if myPlayer.job is 'singer':
+    if myPlayer.job is 'thief':
         self.incentive = 45
         self.motivation = 95
 
@@ -381,10 +381,10 @@ def setup_game():
     myPlayer.name = player_name
 
     os.system('cls')
-    speech1 = 'Welcome to our humble pub.\n'
-    speech2 = 'We know you are new in this area.\n'
-    speech3 = 'Make a name for your self here and beyond!\n'
-    speech4 = 'Good luck, you will need it.\n'
+    speech1 = 'Welcome to our humble clan.\n'
+    speech2 = 'Everyone here is equal, Including the King!\n'
+    speech3 = 'The task is to secure adequate trasure supply for Everyone\n'
+    speech4 = 'Prove yourself and you can be KING.\n'
     for character in speech1:
         sys.stdout.write(character)
         sys.stdout.flush()
