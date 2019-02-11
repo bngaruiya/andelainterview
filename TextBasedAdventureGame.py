@@ -1,12 +1,8 @@
 # Python Text RPG
-# Created by V Savard, inspired by Bryan Tong's Tutorial
 
-#import cmd
-#import textwrap
 import sys
 import os
 import time
-#import random
 
 screen_width = 100
 
@@ -15,8 +11,8 @@ screen_width = 100
 class Player:
     def __init__(self):
         self.name = ''
-        self.hp = 0
-        self.charisma = 0
+        self.incentive = 0
+        self.motivation = 0
         self.job = ''
         self.status_effects = []
         self.location = 'b2'
@@ -102,8 +98,8 @@ solved_places = {'a1': False, 'a2': False, 'a3': False, 'a4': False,
 
 zonemap = {
     'a1': {
-        'ZONENAME': 'home',
-        'DESCRIPTION': "This is the town's entrance",
+        'ZONENAME': 'Front Door Entrance',
+        'DESCRIPTION': "Finally, at the temple of all treasures. Is that the smell of wealth??? Gotta find it before anyone catches me",
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: '',
@@ -112,8 +108,8 @@ zonemap = {
         RIGHT: 'a2'
     },
     'a2': {
-        'ZONENAME': 'A2',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Kings Hall',
+        'DESCRIPTION': 'This must be the famous Kings Hall. Where all the trasure is checked. But where is it stored?!?!',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: '',
@@ -122,8 +118,8 @@ zonemap = {
         RIGHT: 'a3'
     },
     'a3': {
-        'ZONENAME': 'A3',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Chambers of Princess Annabell',
+        'DESCRIPTION': 'Is that the princess?? She is beautiful. Do I say hi? Wait!, the treasure?? Too bad, gotta go!!!',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: '',
@@ -132,8 +128,8 @@ zonemap = {
         RIGHT: 'a4'
     },
     'a4': {
-        'ZONENAME': 'A4',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Army Training Station',
+        'DESCRIPTION': 'Wooww, such a huge army... Poor little me, I wonder what they can do to me, chap chap fleeing away...',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: '',
@@ -143,8 +139,8 @@ zonemap = {
     },
 
     'b1': {
-        'ZONENAME': 'B1',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Black Magical Door',
+        'DESCRIPTION': 'Finally, the Magical door. I can smell treasure, closer than ever, but how do I get in???',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'a1',
@@ -153,8 +149,8 @@ zonemap = {
         RIGHT: 'b2'
     },
     'b2': {
-        'ZONENAME': 'B2',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Spiked Floor',
+        'DESCRIPTION': 'Ooohh, the spiked floor. one wrong move and spears protrude from everywhere to stab you to death... one step at a time',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'a2',
@@ -163,8 +159,8 @@ zonemap = {
         RIGHT: 'b3'
     },
     'b3': {
-        'ZONENAME': 'B3',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Scorpions Shed',
+        'DESCRIPTION': 'I hear the Scorpions here are the most venomous, quickly but steadily...',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'a3',
@@ -173,8 +169,8 @@ zonemap = {
         RIGHT: 'b4'
     },
     'b4': {
-        'ZONENAME': 'B4',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Rotating Floor',
+        'DESCRIPTION': 'Wait!!! This wasnt in the map!!! Time to be innovative.',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'a4',
@@ -225,8 +221,8 @@ zonemap = {
     },
 
     'd1': {
-        'ZONENAME': 'd1',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'The Magical Chambers',
+        'DESCRIPTION': 'Sssshhh... Quiet, Quiet... Dont wake up Bari, the Demon Goddess',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'c1',
@@ -235,8 +231,8 @@ zonemap = {
         RIGHT: 'd2'
     },
     'd2': {
-        'ZONENAME': 'd2',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Dark Chambers',
+        'DESCRIPTION': 'Night vision goggles time!!!, I bet Bari, the Demon Goddess has not seen tech like this...',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'c2',
@@ -245,8 +241,8 @@ zonemap = {
         RIGHT: 'd3'
     },
     'd3': {
-        'ZONENAME': 'd3',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Treasure Door',
+        'DESCRIPTION': 'Finally at the entrance, riches!!! riches!!!, hoo hoooo, hooooo....',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'c3',
@@ -255,8 +251,8 @@ zonemap = {
         RIGHT: 'd4'
     },
     'd4': {
-        'ZONENAME': 'd4',
-        'DESCRIPTION': 'description',
+        'ZONENAME': 'Treasure Chambers',
+        'DESCRIPTION': 'Look, all that Gold, and Diamonds... The magical Eye!!! That must be worth a fortune. Quick Quick, grab it all..',
         'EXAMINATION': 'examination',
         'SOLVED': False,
         UP: 'c4',
@@ -271,7 +267,7 @@ zonemap = {
 
 def print_location():
     print('\n' + ('#' * (4 + (len(myPlayer.location)))))
-    print('# ' + myPlayer.location + ' #')
+    print('# ' + zonemap[myPlayer.location]['ZONENAME'] + ' #')
     print('# ' + zonemap[myPlayer.location]['DESCRIPTION'] + ' #')
     print('\n' + ('#' * (4 + (len(myPlayer.location)))))
 
@@ -312,7 +308,7 @@ def player_move(action):
 
 
 def mouvement_handler(destination):
-    print('\n' + 'You have arrived to your destination (' + destination + ').')
+    print('\n' + 'You have arrived to your destination.')
     myPlayer.location = destination
     print_location()
 
@@ -363,17 +359,17 @@ def setup_game():
 
     ### Player Stats ###
     if myPlayer.job is 'cook':
-        self.hp = 100
-        self.charisma = 40
+        self.incentive = 100
+        self.motivation = 40
     if myPlayer.job is 'barman':
-        self.hp = 70
-        self.charisma = 70
+        self.incentive = 70
+        self.motivation = 70
     if myPlayer.job is 'barmaid':
-        self.hp = 60
-        self.charisma = 80
+        self.incentive = 60
+        self.motivation = 80
     if myPlayer.job is 'singer':
-        self.hp = 45
-        self.charisma = 95
+        self.incentive = 45
+        self.motivation = 95
 
     ### Introduction ###
     question3 = 'Welcome ' + player_name + ' the ' + player_job + '!\n'
